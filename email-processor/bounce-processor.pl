@@ -9,13 +9,11 @@ require $SELF_DIR . '/lib/bounce_db.pm';
 
 use DBI;
 use Mail::DeliveryStatus::BounceParser;
+use String::CRC32;
 
 #-------------------------------------------------------------------------------
 
-our $mysql_host = 'localhost';
-our $mysql_user = 'root';
-our $mysql_pass = '';
-our $mysql_db = 'bounces';
+our $sqlite_db = 'bounces.db';
 
 our $blacklist_table = "mailing_blacklist";
 our $domains_table = "mailing_domains";
@@ -38,8 +36,8 @@ unless ($bounce->is_bounce) {
     exit(0)
 }
 
-# Connect to mysql to save/update bounces information
-my $dbh = DBI->connect("DBI:mysql:database=$mysql_db;host=$mysql_host", $mysql_user, $mysql_pass, {'RaiseError' => 1});
+# Connect to sqlite to save/update bounces information
+my $dbh = DBI->connect("DBI:SQLite:dbname=$sqlite_db", "", "", { RaiseError => 1 });
 
 # So, we've got some bounce(s)!
 for my $report ($bounce->reports) {
