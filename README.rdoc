@@ -77,7 +77,7 @@ Make sure that the filenames don't contain spaces, this can be done with this co
 
 === 5. Extract information
 
-Now you have all the bounces in the sqlite database and can extract the information your want. I use this query to get the email adresses:
+Now you have all the bounces in the sqlite database and can extract the information you want. I use this query to get the email adresses that bounced for non-spam reasons:
 
     $ sqlite3 bounces.db "select user, name from mailing_blacklist u, mailing_domains d where u.reason<>'spam' and u.reason<>'unknown' and u.domain_id = d.id;"
 
